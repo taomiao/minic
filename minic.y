@@ -1,21 +1,21 @@
 %{
-typedef char* string;
-#define YYSTYPE string
+//typedef char* string;
+//#define YYSTYPE string
 #include<stdio.h>
 #include<string.h>
 
 
 %}
 
-%token semicolon open_bracket close_bracket assign open_paren close_paren comma open_brace close_brace int_ if_ else_ while_ return_ plus minus mul div_ mod and_ or_ less equal more n_equal not_ l_or main identifier integer
+%token semicolon open_bracket close_bracket assign open_paren close_paren comma open_brace close_brace int_ if_ else_ while_ return_ plus minus mul div_ mod and_ or_ less equal more n_equal not_ l_or main_ identifier integer
 %%
-GOAL : DEFNS MAINFUNC;    /*[VARDEFN,FUNCDEFN,FUNCDECL]* MAINFUNC;*/
-DEFNS : DEFNS VARDEFN
-	| DEFNS FUNCDEFN
-	| DEFNS FUNCDECL
-	| ;
-VARDEFN : TYPE IDENTIFIER semicolon
-	| TYPE IDENTIFIER open_bracket integer close_bracket;
+GOAL : DEFNS MAINFUNC /*[VARDEFN,FUNCDEFN,FUNCDECL]* MAINFUNC;*/ { printf("reduce to Goal\n");} ;
+DEFNS : DEFNS VARDEFN { printf("reduce to Defns\n");}
+	| DEFNS FUNCDEFN { printf("reduce to Defns\n");}
+	| DEFNS FUNCDECL { printf("reduce to Defns\n");}
+	|  { printf("reduce to Defns\n");};
+VARDEFN : TYPE IDENTIFIER semicolon { printf("reduce to Vardefn\n");}
+	| TYPE IDENTIFIER open_bracket integer close_bracket semicolon{ printf("reduce to Vardefn\n");} ;
 VARDECL : TYPE IDENTIFIER
 	| TYPE IDENTIFIER open_bracket integer close_bracket;
 FUNCDEFN : TYPE IDENTIFIER open_paren PARAMS/*(VARDECL,(comma,VARDECL)*)? */ close_paren open_brace FUNCBODY/*[FUNCDECL,STATEMENT]* */ close_brace;
@@ -30,8 +30,8 @@ FUNCBODY : FUNCBODY FUNCDECL
 	| STATEMENT
 */
 	| ;
-MAINFUNC : int_ main open_paren close_paren open_brace FUNCBODY/*[FUNCDECL,STATEMENT]* */ close_brace;
-TYPE : int_;
+MAINFUNC : int_ main_ open_paren close_paren open_brace FUNCBODY/*[FUNCDECL,STATEMENT]* */ close_brace;
+TYPE : int_ {printf("reduce to Type\n");}; 
 STATEMENT : open_brace STATEMENT close_brace
 	| if_ open_paren EXPRESSION close_paren STATEMENT else_ STATEMENT
 	| if_ open_paren EXPRESSION close_paren STATEMENT
@@ -63,12 +63,12 @@ REAL_PARAMS : REAL_PARAMS_
 	| ;
 REAL_PARAMS_ : REAL_PARAMS_ comma IDENTIFIER
 	| IDENTIFIER;
-IDENTIFIER : identifier
+IDENTIFIER : identifier {printf("reduce to Identifier\n");};
  
 %%
 
-int Main(){
-
+int main(){
+printf("start parsing");
 yyparse();
 return 0;
 

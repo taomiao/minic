@@ -72,7 +72,7 @@ extern int yydebug;
     n_equal = 282,
     not_ = 283,
     l_or = 284,
-    main = 285,
+    main_ = 285,
     identifier = 286,
     integer = 287
   };
@@ -105,7 +105,7 @@ extern int yydebug;
 #define n_equal 282
 #define not_ 283
 #define l_or 284
-#define main 285
+#define main_ 285
 #define identifier 286
 #define integer 287
 
