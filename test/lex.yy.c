@@ -470,8 +470,9 @@ char *yytext;
 #line 1 "test.l"
 #line 2 "test.l"
 #include<stdio.h>
+#include"node.h"
 #include"y.tab.h"
-#line 475 "lex.yy.c"
+#line 476 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -689,9 +690,9 @@ YY_DECL
 		}
 
 	{
-#line 6 "test.l"
+#line 7 "test.l"
 
-#line 695 "lex.yy.c"
+#line 696 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -750,36 +751,36 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 7 "test.l"
-{ return assign;}
+#line 8 "test.l"
+{ printf("="); return assign;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 8 "test.l"
-{return integer;}
+#line 9 "test.l"
+{printf("integer"); return integer;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 9 "test.l"
-{ return identifier;}
+#line 10 "test.l"
+{ printf("identifier"); return identifier;}
 	YY_BREAK
 case 4:
 /* rule 4 can match eol */
 YY_RULE_SETUP
-#line 10 "test.l"
+#line 11 "test.l"
 ;
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 11 "test.l"
-{printf("invalid token"); return -1;}
+#line 12 "test.l"
+{printf("invalid token");}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 13 "test.l"
+#line 14 "test.l"
 ECHO;
 	YY_BREAK
-#line 783 "lex.yy.c"
+#line 784 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1780,7 +1781,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 13 "test.l"
+#line 14 "test.l"
 
 
 

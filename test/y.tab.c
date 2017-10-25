@@ -65,9 +65,11 @@
 #line 1 "test.y" /* yacc.c:339  */
 
 #include<stdio.h>
+#include"node.h"
 
+#define YYSTYPE Node
 
-#line 71 "y.tab.c" /* yacc.c:339  */
+#line 73 "y.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -128,7 +130,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 132 "y.tab.c" /* yacc.c:358  */
+#line 134 "y.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -368,9 +370,9 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  5
+#define YYFINAL  2
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   5
+#define YYLAST   4
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  6
@@ -379,7 +381,7 @@ union yyalloc
 /* YYNRULES -- Number of rules.  */
 #define YYNRULES  5
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  8
+#define YYNSTATES  7
 
 /* YYTRANSLATE[YYX] -- Symbol number corresponding to YYX as returned
    by yylex, with out-of-bounds checking.  */
@@ -426,7 +428,7 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    10,    10,    11,    12,    13
+       0,    12,    12,    20,    23,    29
 };
 #endif
 
@@ -463,7 +465,7 @@ static const yytype_uint16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      -2,     1,     0,    -4,    -3,    -4,    -4,    -4
+      -4,     0,    -4,    -3,    -4,    -1,    -4
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -471,19 +473,19 @@ static const yytype_int8 yypact[] =
      means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       0,     4,     0,     3,     0,     1,     2,     5
+       3,     0,     1,     4,     2,     0,     5
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-      -4,    -4,     2
+      -4,    -4,    -4
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     2,     3
+      -1,     1,     4
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -491,19 +493,19 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_uint8 yytable[] =
 {
-       5,     1,     7,     1,     6,     4
+       2,     5,     0,     3,     6
 };
 
-static const yytype_uint8 yycheck[] =
+static const yytype_int8 yycheck[] =
 {
-       0,     3,     5,     3,     2,     4
+       0,     4,    -1,     3,     5
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,     3,     7,     8,     4,     0,     8,     5
+       0,     7,     0,     3,     8,     4,     5
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
@@ -515,7 +517,7 @@ static const yytype_uint8 yyr1[] =
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
-       0,     2,     2,     1,     1,     3
+       0,     2,     2,     0,     1,     3
 };
 
 
@@ -1191,20 +1193,57 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-        case 4:
+        case 2:
 #line 12 "test.y" /* yacc.c:1646  */
-    {printf("reduce to Goal1");}
-#line 1198 "y.tab.c" /* yacc.c:1646  */
+    { 
+	Goal * gp = malloc(sizeof(Goal));
+	gp->child1 = &((yyvsp[-1]));
+	gp->child2 = &((yyvsp[0]));
+	Node * np = malloc(sizeof(Node));
+	np->child5 = gp;
+	(yyval)=*np;
+	}
+#line 1207 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 3:
+#line 20 "test.y" /* yacc.c:1646  */
+    {
+	printf("reduce to goal2");
+	}
+#line 1215 "y.tab.c" /* yacc.c:1646  */
+    break;
+
+  case 4:
+#line 23 "test.y" /* yacc.c:1646  */
+    { 
+	identifierT * ip = malloc(sizeof(identifierT));
+	Node * np = malloc(sizeof(Node));
+	np->child1 = ip;
+	(yyval)=*np;
+	printf("reduce to assign1");}
+#line 1226 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 5:
-#line 13 "test.y" /* yacc.c:1646  */
-    {printf("reduce to Goal2"); }
-#line 1204 "y.tab.c" /* yacc.c:1646  */
+#line 29 "test.y" /* yacc.c:1646  */
+    { 
+	identifierT * ip = malloc(sizeof(identifierT));
+	assignT * ap = malloc(sizeof(assignT));
+	integerT * tp = malloc(sizeof(integerT));
+	Assign * Ap = malloc(sizeof(Assign));
+	Ap->child1 = ip;
+	Ap->child2 = ap;
+	Ap->child3 = tp;
+	Node * np = malloc(sizeof(Node));
+	np->child4 = Ap;
+	(yyval)=*np;
+	printf("reduce to assign2"); }
+#line 1243 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1208 "y.tab.c" /* yacc.c:1646  */
+#line 1247 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1432,7 +1471,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 15 "test.y" /* yacc.c:1906  */
+#line 42 "test.y" /* yacc.c:1906  */
 
 
 int main(){

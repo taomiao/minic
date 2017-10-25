@@ -1,37 +1,43 @@
 %{
 #include<stdio.h>
-struct identifier{
-	char * p;
-};
-struct assign{
-	char a='=';
-};
-struct integer{
-	int i;
-};
-struct Assign{
-	struct identifier * child1;
-	struct assign * child2;
-	struct integer * child3;
-};
-struct Goal{
-	struct Goal * child1;
-	struct Assign * child2;
-};
+#include"node.h"
 
+#define YYSTYPE Node
 %}
 
 %token identifier assign integer
 
 %%
 
-GOAL : GOAL ASSIGN 
-	| ASSIGN ; 
-ASSIGN : identifier {$$=$1; 
-	 identifier tmp=new identifier();
-	 
-	 printf("reduce to Goal1");}
-	|identifier assign integer {printf("reduce to Goal2"); };
+GOAL : GOAL ASSIGN { 
+	Goal * gp = malloc(sizeof(Goal));
+	gp->child1 = &($1);
+	gp->child2 = &($2);
+	Node * np = malloc(sizeof(Node));
+	np->child5 = gp;
+	$$=*np;
+	}
+	| {
+	printf("reduce to goal2");
+	}; 
+ASSIGN : identifier { 
+	identifierT * ip = malloc(sizeof(identifierT));
+	Node * np = malloc(sizeof(Node));
+	np->child1 = ip;
+	$$=*np;
+	printf("reduce to assign1");}
+	|identifier assign integer { 
+	identifierT * ip = malloc(sizeof(identifierT));
+	assignT * ap = malloc(sizeof(assignT));
+	integerT * tp = malloc(sizeof(integerT));
+	Assign * Ap = malloc(sizeof(Assign));
+	Ap->child1 = ip;
+	Ap->child2 = ap;
+	Ap->child3 = tp;
+	Node * np = malloc(sizeof(Node));
+	np->child4 = Ap;
+	$$=*np;
+	printf("reduce to assign2"); };
 
 %%
 
