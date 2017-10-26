@@ -1,26 +1,30 @@
-typedef struct identifiertype{
+struct Node;
+typedef struct identifiertype{	
 	char * p;
 } identifierT;
-typedef struct assigntype{
+typedef struct assigntype{	
 	char a;
 } assignT;
-typedef struct integertype{
+typedef struct integertype{	
 	int i;
 } integerT;
-typedef struct Assigntype{
-	struct identifier * child1;
-	struct assign * child2;
-	struct integer * child3;
+typedef struct Assigntype{	
+	struct Node * child1;
+	struct Node * child2;
+	struct Node * child3;
 } Assign;
-typedef struct Goaltype{
-	struct Goal * child1;
-	struct Assign * child2;
+typedef struct Goaltype{	
+	struct Node * child1;
+	struct Node * child2;
 } Goal;
-typedef union Nodetype{
-	struct identifier * child1;
-	struct assign * child2;
-	struct integer * child3;
-	struct Assign * child4;
-	struct Goal * child5;
-} Node;
-
+struct Node{
+int type;
+union Nodetype{
+	identifierT * child1;
+	assignT * child2;
+	integerT * child3;
+	Assign * child4;
+	Goal * child5;
+	} node;
+};
+typedef struct Node Node;

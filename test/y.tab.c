@@ -67,9 +67,44 @@
 #include<stdio.h>
 #include"node.h"
 
-#define YYSTYPE Node
+#define YYSTYPE Node *
+int layer=1;
+void print_tree(Node * tree){
+	printf("layer %d,type %d\n",layer,tree->type);
+	switch(tree->type){
+		case 1:{
+			printf("identifier\n");		
+			break;		
+		}
+		case 2:{
+			printf("ASSIGN\n");
+			break;		
+		}
+		case 3:{
+			printf("integer\n");
+			break;		
+		}
+		case 4:{
+			printf("ASSIGN : identifier assign integer\n");
+			break;
+		}
+		case 5:{
+			printf("ASSIGNS: ASSIGNS ASSIGN\n");
+			Node * tmp1 = ((tree->node).child5)->child1;
+			layer++;
+			print_tree(tmp1);
+			layer--;
+			Node * tmp2 = ((tree->node).child5)->child2;
+			layer++;
+			print_tree(tmp2);
+			layer--;
+			break;
+		}
+	
+	}
+}
 
-#line 73 "y.tab.c" /* yacc.c:339  */
+#line 108 "y.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -130,7 +165,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 134 "y.tab.c" /* yacc.c:358  */
+#line 169 "y.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -370,18 +405,18 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  2
+#define YYFINAL  6
 /* YYLAST -- Last index in YYTABLE.  */
 #define YYLAST   4
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  6
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  3
+#define YYNNTS  4
 /* YYNRULES -- Number of rules.  */
 #define YYNRULES  5
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  7
+#define YYNSTATES  9
 
 /* YYTRANSLATE[YYX] -- Symbol number corresponding to YYX as returned
    by yylex, with out-of-bounds checking.  */
@@ -428,7 +463,7 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    12,    12,    20,    23,    29
+       0,    47,    47,    51,    64,    77
 };
 #endif
 
@@ -438,7 +473,7 @@ static const yytype_uint8 yyrline[] =
 static const char *const yytname[] =
 {
   "$end", "error", "$undefined", "identifier", "assign", "integer",
-  "$accept", "GOAL", "ASSIGN", YY_NULLPTR
+  "$accept", "GOAL", "ASSIGNS", "ASSIGN", YY_NULLPTR
 };
 #endif
 
@@ -465,7 +500,7 @@ static const yytype_uint16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      -4,     0,    -4,    -3,    -4,    -1,    -4
+      -3,    -2,     1,    -3,    -4,    -1,    -4,    -4,    -4
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -473,19 +508,19 @@ static const yytype_int8 yypact[] =
      means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       3,     0,     1,     4,     2,     0,     5
+       0,     0,     0,     2,     4,     0,     1,     3,     5
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-      -4,    -4,    -4
+      -4,    -4,    -4,     0
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     1,     4
+      -1,     2,     3,     4
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -493,31 +528,31 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_uint8 yytable[] =
 {
-       2,     5,     0,     3,     6
+       1,     6,     5,     7,     8
 };
 
-static const yytype_int8 yycheck[] =
+static const yytype_uint8 yycheck[] =
 {
-       0,     4,    -1,     3,     5
+       3,     0,     4,     3,     5
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,     7,     0,     3,     8,     4,     5
+       0,     3,     7,     8,     9,     4,     0,     9,     5
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,     6,     7,     7,     8,     8
+       0,     6,     7,     8,     8,     9
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
-       0,     2,     2,     0,     1,     3
+       0,     2,     1,     2,     1,     3
 };
 
 
@@ -1194,56 +1229,76 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 12 "test.y" /* yacc.c:1646  */
-    { 
-	Goal * gp = malloc(sizeof(Goal));
-	gp->child1 = &((yyvsp[-1]));
-	gp->child2 = &((yyvsp[0]));
-	Node * np = malloc(sizeof(Node));
-	np->child5 = gp;
-	(yyval)=*np;
-	}
-#line 1207 "y.tab.c" /* yacc.c:1646  */
+#line 47 "test.y" /* yacc.c:1646  */
+    {
+	(yyval)=(yyvsp[0]);printf("goal\n");
+	print_tree(((yyval)));
+}
+#line 1238 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 3:
-#line 20 "test.y" /* yacc.c:1646  */
-    {
-	printf("reduce to goal2");
+#line 51 "test.y" /* yacc.c:1646  */
+    { 
+	Goal * gp = malloc(sizeof(Goal));
+	gp->child1 = ((yyvsp[-1]));
+	printf("$1 type =  %d\n",(yyvsp[-1])->type);
+	gp->child2 = ((yyvsp[0]));
+	printf("$2 type =  %d\n",(yyvsp[0])->type);
+	Node * np = malloc(sizeof(Node));
+	np->type=5;	
+	(np->node).child5 = gp;
+	(yyval)=np;
+	printf("assign1\n");
 	}
-#line 1215 "y.tab.c" /* yacc.c:1646  */
+#line 1255 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 4:
-#line 23 "test.y" /* yacc.c:1646  */
-    { 
-	identifierT * ip = malloc(sizeof(identifierT));
-	Node * np = malloc(sizeof(Node));
-	np->child1 = ip;
-	(yyval)=*np;
-	printf("reduce to assign1");}
-#line 1226 "y.tab.c" /* yacc.c:1646  */
+#line 64 "test.y" /* yacc.c:1646  */
+    {
+	(yyval)=(yyvsp[0]);
+	printf("assign2\n");	
+	}
+#line 1264 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 5:
-#line 29 "test.y" /* yacc.c:1646  */
+#line 77 "test.y" /* yacc.c:1646  */
     { 
+
 	identifierT * ip = malloc(sizeof(identifierT));
+	Node * np1 = malloc(sizeof(Node));
+	np1->type=1;		
+	(np1->node).child1 = ip;
+
 	assignT * ap = malloc(sizeof(assignT));
+	Node * np2 = malloc(sizeof(Node));
+	np2->type=2;		
+	(np2->node).child2 = ap;
+
 	integerT * tp = malloc(sizeof(integerT));
+	Node * np3 = malloc(sizeof(Node));
+	np3->type=3;		
+	(np3->node).child3 = tp;
+
 	Assign * Ap = malloc(sizeof(Assign));
-	Ap->child1 = ip;
-	Ap->child2 = ap;
-	Ap->child3 = tp;
-	Node * np = malloc(sizeof(Node));
-	np->child4 = Ap;
-	(yyval)=*np;
-	printf("reduce to assign2"); }
-#line 1243 "y.tab.c" /* yacc.c:1646  */
+	Ap->child1 = np1;
+	Ap->child2 = np2;
+	Ap->child3 = np3;
+	Node * np4 = malloc(sizeof(Node));
+	np4->type=4;	
+	(np4->node).child4 = Ap;
+
+	(yyval)=np4;
+
+	printf("reduce to assign2\n"); 
+}
+#line 1298 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1247 "y.tab.c" /* yacc.c:1646  */
+#line 1302 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1471,7 +1526,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 42 "test.y" /* yacc.c:1906  */
+#line 107 "test.y" /* yacc.c:1906  */
 
 
 int main(){
